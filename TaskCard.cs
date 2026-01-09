@@ -41,7 +41,7 @@ namespace MyWinFormsApp
                 AutoSize = false,
                 Dock = DockStyle.Top,
                 Height = 50,
-                Font = new Font("Segoe UI", 11, FontStyle.Bold),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.TopLeft,
                 BackColor = Color.Transparent,
                 Cursor = Cursors.Hand,
