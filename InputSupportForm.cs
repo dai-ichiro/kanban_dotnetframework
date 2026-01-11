@@ -36,7 +36,8 @@ namespace MyWinFormsApp
                 Location = new Point(10, 10),
                 Width = 260,
                 Height = 25,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Segoe UI", 10),
+                ImeMode = ImeMode.Hiragana
             };
             filterTextBox.TextChanged += FilterTextBox_TextChanged;
             filterTextBox.KeyDown += FilterTextBox_KeyDown;
