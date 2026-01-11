@@ -72,6 +72,7 @@ namespace MyWinFormsApp
                 Font = new Font("Segoe UI", 11),
                 ImeMode = ImeMode.Hiragana
             };
+            titleTextBox.TextChanged += TitleTextBox_TextChanged;
 
             assigneeLabel = new Label
             {
@@ -80,6 +81,7 @@ namespace MyWinFormsApp
                 Width = 100,
                 Height = 20
             };
+
 
             assigneeTextBox = new TextBox
             {
@@ -154,5 +156,34 @@ namespace MyWinFormsApp
                 this.DialogResult = DialogResult.None;
             }
         }
+
+        private void TitleTextBox_TextChanged(object sender, EventArgs e)
+        {
+            int selectionStart = titleTextBox.SelectionStart;
+            if (selectionStart < 3) return;
+
+            string text = titleTextBox.Text;
+            // 直前の3文字が "@hd" かどうか判定
+            string lookBack = text.Substring(selectionStart - 3, 3);
+
+            if (lookBack == "@hd")
+            {
+                using (var supportForm = new InputSupportForm())
+                {
+                    if (supportForm.ShowDialog() == DialogResult.OK)
+                    {
+                        string selectedValue = supportForm.SelectedValue;
+                        
+                        // "@hd" を選択された文字に置換
+                        string newText = text.Remove(selectionStart - 3, 3).Insert(selectionStart - 3, selectedValue);
+                        titleTextBox.Text = newText;
+                        
+                        // カーソル位置を挿入した文字の直後に移動
+                        titleTextBox.SelectionStart = selectionStart - 3 + selectedValue.Length;
+                    }
+                }
+            }
+        }
     }
 }
+
