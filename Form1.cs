@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Text.Json;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace MyWinFormsApp
 {
@@ -190,7 +192,8 @@ namespace MyWinFormsApp
 
                 var json = JsonSerializer.Serialize(tasks, new JsonSerializerOptions
                 {
-                    WriteIndented = true
+                    WriteIndented = true,
+                    Encoder = JavaScriptEncoder.Create(UnicodeRanges.All)
                 });
                 File.WriteAllText(dataFilePath, json);
             }
