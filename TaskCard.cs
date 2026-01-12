@@ -7,8 +7,8 @@ namespace MyWinFormsApp
 {
     public class TaskCard : Panel
     {
-        private Label titleLabel;
-        private Label assigneeLabel;
+        private Label contentLabel;
+        private Label headerLabel;
         private TableLayoutPanel timestampsPanel;
         private Button editButton;
         private Button deleteButton;
@@ -35,31 +35,31 @@ namespace MyWinFormsApp
             this.MinimumSize = new Size(200, 160);
             this.Height = 165; // 高さを維持
 
-            // --- 1. タイトル (2行分) ---
-            titleLabel = new Label
+            // --- 2. 内容 (2行目以降) ---
+            contentLabel = new Label
             {
                 AutoSize = false,
                 Dock = DockStyle.Top,
                 Height = 50,
-                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Regular),
                 TextAlign = ContentAlignment.TopLeft,
                 BackColor = Color.Transparent,
                 Cursor = Cursors.Hand,
                 AutoEllipsis = true
             };
-            titleLabel.MouseDown += TaskCard_MouseDown;
+            contentLabel.MouseDown += TaskCard_MouseDown;
 
-            // --- 2. 担当者 ---
-            assigneeLabel = new Label
+            // --- 1. ヘッダー (番号 + 担当) ---
+            headerLabel = new Label
             {
                 AutoSize = false,
                 Dock = DockStyle.Top,
                 Height = 22,
-                Font = new Font("Segoe UI", 9.5F, FontStyle.Regular),
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft,
                 BackColor = Color.Transparent
             };
-            assigneeLabel.MouseDown += TaskCard_MouseDown;
+            headerLabel.MouseDown += TaskCard_MouseDown;
 
             // --- 3. ボトムコンテナ (ボタン縦並び + 時間表示広め) ---
             bottomContainer = new Panel
@@ -118,9 +118,10 @@ namespace MyWinFormsApp
             bottomContainer.Controls.Add(timestampsPanel);
             bottomContainer.Controls.Add(buttonPanel);
 
+            // コントロールの追加順序を変更 (ヘッダーを最後にすることで最上部に配置)
             this.Controls.Add(bottomContainer);
-            this.Controls.Add(assigneeLabel);
-            this.Controls.Add(titleLabel);
+            this.Controls.Add(contentLabel);
+            this.Controls.Add(headerLabel);
 
             this.MouseDown += TaskCard_MouseDown;
         }
@@ -135,8 +136,10 @@ namespace MyWinFormsApp
 
         public void UpdateDisplay()
         {
-            titleLabel.Text = $"#{Task.TaskNumber} {Task.Title}";
-            assigneeLabel.Text = string.IsNullOrEmpty(Task.Assignee) ? "" : $"担当: {Task.Assignee}";
+            contentLabel.Text = Task.Title;
+            headerLabel.Text = string.IsNullOrEmpty(Task.Assignee)
+                ? $"#{Task.TaskNumber}"
+                : $"#{Task.TaskNumber} 担当: {Task.Assignee}";
 
             switch (Task.Priority)
             {
