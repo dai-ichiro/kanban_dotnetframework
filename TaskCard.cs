@@ -54,8 +54,8 @@ namespace MyWinFormsApp
             {
                 AutoSize = false,
                 Dock = DockStyle.Top,
-                Height = 22,
-                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
+                Height = 35,
+                Font = new Font("Yu Gothic UI", 10.5F, FontStyle.Bold),
                 TextAlign = ContentAlignment.MiddleLeft,
                 BackColor = Color.Transparent
             };
